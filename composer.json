@@ -1,0 +1,26 @@
+{
+    "name": "superbnexus/sms-gateway",
+    "description": "Sms gateway service for SuperbNexus",
+    "type": "smsgateway-project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Lib\\": "Lib/",
+            "Telcos\\": "Telcos/"
+        },
+        "files": []
+    },
+    "authors": [{
+            "name": "Jobayer Al Mahmud",
+            "email": "Jobayer.Tuser@gmail.com"
+        },
+        {
+            "name": "Abdul Latif",
+            "email": "latif.feni88@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {}
+}
