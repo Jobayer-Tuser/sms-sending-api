@@ -1,7 +1,7 @@
 <?php
 
 namespace Telcos;
-use stdClass;
+use Enum\SmsStatus;
 
 class Teletalk implements TelcoInterface 
 {
@@ -16,14 +16,16 @@ class Teletalk implements TelcoInterface
         $params = $this->makeParams($data);  
         $httpClient = new HttpClient();
 
-        $url = '';
-        $params = new stdClass();
-        $header = [];
+        $header = [
+            "Accept" => "application/json",
+            "Content-Type" => "application/json"
+        ];
 
-        $response = $httpClient->doPost( $url, $params, $header);
+        $response = $httpClient->doPost( config('telcos.teletalk.single_api'), $params, $header);
 
-        return $this->processResponse($response);
-
+        $telcoRes = $this->processResponse($response);
+        $telcoRes->telcoRequest = $params;
+        return $telcoRes;
     }
 
     /**
@@ -34,6 +36,16 @@ class Teletalk implements TelcoInterface
      */
     public function processResponse($response): TelcoResponse
     {
+        $res = json_decode($response);
+        $telRes = new TelcoResponse();
+        $telRes->telcoResponse = $response;
+        $telRes->status = SmsStatus::FAILED;
+
+        if ($res->error_no == 0) {
+            $telRes->status = SmsStatus::SUCCESS;
+            $telRes->telcoMsgId = $res->smsInfo[0]->smsID ?? "";
+        }
+
         return new TelcoResponse();
     }
 
@@ -42,9 +54,19 @@ class Teletalk implements TelcoInterface
      *
      * @return void
      */
-    public function makeParams()
+    public function makeParams($data)
     {
-
+        return json_encode([
+          "auth" => [
+              "username" => $data['username'],
+              "password" => $data['password'],
+              "acode" => $data['accode']
+          ],
+          "smsInfo" => [
+              "message" => $data['sms'],
+              "masking" => "",
+              "msisdn" => [$data['msisdn']]
+          ]
+        ]);
     }
-    
 }

@@ -4,7 +4,7 @@ namespace Telcos;
 
 class HttpClient {
 
-    public  function doGet(string $url, array $header) : void
+    public function doGet(string $url, array $header) : string
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -12,7 +12,7 @@ class HttpClient {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
+            CURLOPT_TIMEOUT => config('curl.otp_timeout'),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'GET',
@@ -21,12 +21,16 @@ class HttpClient {
 
         $response = curl_exec($curl);
 
+        if (curl_errno()) {
+            writeErrorLog(curl_error($curl));
+        }
+
         curl_close($curl);
         echo $response;
 
     }
 
-    public function doPost(string $url , Object $data, array $header) : void
+    public function doPost(string $url , Object $data, array $header) : string
     {
         $header = [ 'Content-Type: application/json' ]; // for json post data
         $curl = curl_init();
@@ -35,7 +39,7 @@ class HttpClient {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
+            CURLOPT_TIMEOUT => config('curl.otp_timeout'),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
@@ -44,13 +48,15 @@ class HttpClient {
         ));
 
         $response = curl_exec($curl);
-
+        if (curl_errno()) {
+            writeErrorLog(curl_error($curl));
+        }
         curl_close($curl);
-        echo $response;
+        return $response;
         
     }
 
-    public function request(string $method, string $url, array $data, array $header) : void
+    public function request(string $method, string $url, array $data, array $header) : string
     {
         $json_string = json_encode($data);
 
@@ -60,7 +66,7 @@ class HttpClient {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
+            CURLOPT_TIMEOUT => config('curl.otp_timeout'),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => $method,
@@ -70,8 +76,12 @@ class HttpClient {
 
         $response = curl_exec($curl);
 
+        if (curl_errno()) {
+            writeErrorLog(curl_error($curl));
+        }
+
         curl_close($curl);
-        echo $response;
+        return $response;
 
     }
 }

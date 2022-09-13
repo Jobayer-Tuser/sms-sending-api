@@ -6,5 +6,5 @@ interface TelcoInterface
 {
     public function sendSms(Object $data): TelcoResponse;
     public function processResponse($response) : TelcoResponse;
-    public function makeParams(); 
+    public function makeParams($data);
 }

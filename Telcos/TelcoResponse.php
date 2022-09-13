@@ -2,8 +2,10 @@
 namespace Telcos;
 
 class TelcoResponse {
-    public $status;
+    public string $status;
     public $telcoResponse;
+    public $telcoRequest;
     public $telcoMsgId;
     public $smsData;
+    public $balance;
 }
