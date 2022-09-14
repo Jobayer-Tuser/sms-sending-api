@@ -1,6 +1,23 @@
 <?php
 
-$GLOBALS['DBHOST'] = 'localhost';
-$GLOBALS['DBNAME'] = "sms_gateway_rdb";
-$GLOBALS['DBUSER'] = "root";
-$GLOBALS['DBPASS'] = "RootPass!@";
+return [
+    "database" => [
+        "host" => "",
+        "port" => "",
+        "user" => "",
+        "password" => "",
+        "db_name" => ""
+    ],
+    "telcos" => [
+        "gp" => [
+            "api_url" => ""
+        ],
+        "teletalk" => [
+            "single_api" => "http://bulkmsg.teletalk.com.bd/api/sendSMS"
+        ]
+    ],
+    "curl" => [
+        "con_timeout" => 30,
+        "opt_timeout" => 30
+    ]
+];

@@ -10,7 +10,13 @@ class Eloquent
 	
 	private function __construct()
 	{
-		$this->connection = new PDO('mysql:host='.$GLOBALS['DBHOST'].';dbname='.$GLOBALS['DBNAME'].';charset=utf8', $GLOBALS['DBUSER'], $GLOBALS['DBPASS']);
+        $host =  config('database.host');
+        $user =  config('database.user');
+        $pass =  config('database.password');
+        $dbName =  config('database.db_name');
+
+
+		$this->connection = new PDO('mysql:host='.$host.';dbname='.$dbName.';charset=utf8', $user, $pass);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
