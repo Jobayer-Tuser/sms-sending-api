@@ -1,5 +1,5 @@
 <?php
-use Lib\Config;
+use App\Libs\Config;
 function config($path)
 {
     return Config::get($path);

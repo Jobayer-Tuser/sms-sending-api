@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib;
+namespace App\Libs;
 
 
 class Log
@@ -15,7 +15,7 @@ class Log
                 if (!empty($dir)) {
                     $dir = $dir."/";
                 }
-                $folder_name = rtrim(config('log_path'),'/') .'/'.$dir. date('Ym')."/";
+                $folder_name = rtrim(config('log_path'), '/') . 'Log.php/' .$dir. date('Ym')."/";
 
                 if (!file_exists($folder_name)) {
                     mkdir($folder_name, 0775, true);

@@ -2,18 +2,18 @@
 
 return [
     "database" => [
-        "host" => "",
+        "host" => "localhost",
         "port" => "",
-        "user" => "",
-        "password" => "",
-        "db_name" => ""
+        "user" => "root",
+        "password" => "RootPass!@",
+        "db_name" => "sms_gateway_rdb"
     ],
-    "telcos" => [
+    "Telcos" => [
         "gp" => [
             "api_url" => ""
         ],
         "teletalk" => [
-            "single_api" => "http://bulkmsg.teletalk.com.bd/api/sendSMS"
+            "single_api" => "https://bulkmsg.teletalk.com.bd/api/sendSMS"
         ]
     ],
     "curl" => [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Lib;
+namespace App\Libs;
 
 class HttpClient {
 
@@ -26,40 +26,11 @@ class HttpClient {
         }
 
         curl_close($curl);
-        echo $response;
-
+        return $response;
     }
 
     public function doPost(string $url , Object $data, array $header) : string
     {
-        $header = [ 'Content-Type: application/json' ]; // for json post data
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => '',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => config('curl.otp_timeout'),
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => $header,
-            CURLOPT_POSTFIELDS => []
-        ));
-
-        $response = curl_exec($curl);
-        if (curl_errno()) {
-            writeErrorLog(curl_error($curl));
-        }
-        curl_close($curl);
-        return $response;
-        
-    }
-
-    public function request(string $method, string $url, array $data, array $header) : string
-    {
-        $json_string = json_encode($data);
-
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -69,19 +40,16 @@ class HttpClient {
             CURLOPT_TIMEOUT => config('curl.otp_timeout'),
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => $method,
+            CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => $header,
-            CURLOPT_POSTFIELDS => $data,
+            CURLOPT_POSTFIELDS => $data
         ));
 
         $response = curl_exec($curl);
-
         if (curl_errno()) {
             writeErrorLog(curl_error($curl));
         }
-
         curl_close($curl);
         return $response;
-
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Lib;
+namespace App\Libs;
 
 use PDO, FFI\Exception;
 

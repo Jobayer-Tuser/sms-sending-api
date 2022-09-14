@@ -1,5 +1,6 @@
 <?php
-namespace Enum;
+
+namespace App\Enums;
 use ReflectionClass;
 
 abstract class BaseEnum
@@ -13,7 +14,7 @@ abstract class BaseEnum
         try {
             $class = new ReflectionClass(get_called_class());
         } catch (\ReflectionException $e) {
-            \Log::error('Enum Reflection Class Error: '. $e->getMessage());
+            \Log::error('Enums Reflection Class Error: '. $e->getMessage());
         }
         return array_keys($class->getConstants());
     }

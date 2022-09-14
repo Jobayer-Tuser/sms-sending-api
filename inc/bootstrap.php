@@ -7,7 +7,8 @@ define('BASE_PATH', realpath(dirname(__FILE__,2)));
 
 $GLOBALS['config'] = require(BASE_PATH . '/inc/config.php');
 require(BASE_PATH . "/vendor/autoload.php");
-require(BASE_PATH . "/helpers/helper.php");
+//require(BASE_PATH . "/app/Helpers/helper.php");
+
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE");

@@ -1,5 +1,5 @@
 <?php
-namespace Telcos;
+namespace App\Telcos;
 
 class TelcoResponse {
     public string $status;

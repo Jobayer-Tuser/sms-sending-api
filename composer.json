@@ -5,12 +5,10 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Lib\\": "Lib/",
-            "Telcos\\": "Telcos/"
+            "App\\": "app/"
         },
         "files": [
-            "app/helpers.php"
+            "app/Helpers/helper.php"
         ]
     },
     "authors": [{
