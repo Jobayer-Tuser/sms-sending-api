@@ -15,6 +15,7 @@ class Eloquent
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
 	}
 
+    # Making our class as singleton instance
 	public static function getInstance() : object
 	{
 		$subclass = static::class; # or [ $subclass = get_called_class() ]
@@ -23,8 +24,6 @@ class Eloquent
 		}
 		return self::$instances[$subclass];
 	}
-
-	private function __clone(){}
 
 	public function query(string $sql)
 	{
@@ -366,4 +365,7 @@ class Eloquent
 			return 0;
 		}
 	}
+
+
+    private function __clone(){}
 }

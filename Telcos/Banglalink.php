@@ -1,5 +1,7 @@
 <?php
 namespace Telcos;
+
+use Lib\HttpClient;
 use stdClass;
 
 class Banglalink implements TelcoInterface 

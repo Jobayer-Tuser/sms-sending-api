@@ -9,7 +9,9 @@
             "Lib\\": "Lib/",
             "Telcos\\": "Telcos/"
         },
-        "files": []
+        "files": [
+            "app/helpers.php"
+        ]
     },
     "authors": [{
             "name": "Jobayer Al Mahmud",
