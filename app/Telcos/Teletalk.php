@@ -1,7 +1,7 @@
 <?php
 
-namespace Telcos;
-use Enum\SmsStatus;
+namespace App\Telcos;
+use App\Enums\SmsStatus;
 
 class Teletalk implements TelcoInterface 
 {
@@ -21,7 +21,7 @@ class Teletalk implements TelcoInterface
             "Content-Type" => "application/json"
         ];
 
-        $response = $httpClient->doPost( config('telcos.teletalk.single_api'), $params, $header);
+        $response = $httpClient->doPost( config('Telcos.teletalk.single_api'), $params, $header);
 
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;

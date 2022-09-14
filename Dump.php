@@ -12,20 +12,20 @@ function setNonmaskSenderInfo($maskId = null)
                     'config_telco_senders.telco_id',
                     'config_telco_senders.id as sender_id',
                     'config_telco_senders.callback_token',
-                    'telcos.telco_code',
-                    'telcos.telco_name',
-                    'telcos.telco_mask_sms_rate',
-                    'telcos.telco_nonmask_sms_rate',
-                    'telcos.telco_isms_rate',
-                    'telcos.telco_options',
-                    'telcos.telco_prefix',
-                    'telcos.api_request_limit'
+                    'Telcos.telco_code',
+                    'Telcos.telco_name',
+                    'Telcos.telco_mask_sms_rate',
+                    'Telcos.telco_nonmask_sms_rate',
+                    'Telcos.telco_isms_rate',
+                    'Telcos.telco_options',
+                    'Telcos.telco_prefix',
+                    'Telcos.api_request_limit'
                 )
-                ->leftJoin('telcos','telcos.id','=','config_telco_senders.telco_id')
+                ->leftJoin('Telcos','Telcos.id','=','config_telco_senders.telco_id')
                 ->leftJoin('mask_telco_sender_routes','mask_telco_sender_routes.config_telco_sender_id','=','config_telco_senders.id')
                 ->where('config_telco_senders.default_nonmask_gateway','Active')
                 ->where('config_telco_senders.status','Active')
-                ->where('telcos.status','Active')
+                ->where('Telcos.status','Active')
                 ->where('config_telco_senders.status','Active')
                 ->where('mask_telco_sender_routes.default_nonmask', true)
                 ->where('mask_telco_sender_routes.status', "Active")

@@ -1,6 +1,6 @@
 <?php
 
-namespace Telcos;
+namespace App\Telcos;
 
 interface TelcoInterface 
 {

@@ -1,9 +1,7 @@
 <?php
 
-namespace Lib;
+namespace App\Libs;
 
-
-namespace Lib;
 class Config
 {
     public static function get($path = null)

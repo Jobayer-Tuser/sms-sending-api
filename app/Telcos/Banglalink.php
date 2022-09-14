@@ -1,5 +1,5 @@
 <?php
-namespace Telcos;
+namespace App\Telcos;
 
 use Lib\HttpClient;
 use stdClass;

@@ -1,7 +1,7 @@
 <?php
-namespace App;
+namespace App\Controllers;
 
-use Lib\Eloquent;
+use App\Libs\Eloquent;
 
 class TelcoRoute {
 
@@ -44,7 +44,7 @@ class TelcoRoute {
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 
                     ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN telcos AS t 
+                LEFT JOIN Telcos AS t 
                     ON t.id =  mtsr.telco_id
                 WHERE t.telco_prefix = "'. $telPrefix .'"
                     AND mtsr.mask_id = "'. $maskId.'" 
@@ -73,7 +73,7 @@ class TelcoRoute {
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 
                     ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN telcos AS t 
+                LEFT JOIN Telcos AS t 
                     ON t.id =  mtsr.telco_id
                 WHERE mtsr.mask_id = "'. $maskId .'" 
                     AND mtsr.status = "Active" 
@@ -99,7 +99,7 @@ class TelcoRoute {
                     t.tel_prefix 
 
                 FROM config_telco_senders AS cts ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN telcos AS t ON t.id =  mtsr.telco_id
+                LEFT JOIN Telcos AS t ON t.id =  mtsr.telco_id
                 WHERE cts.status = "Active" 
                     AND t.status = "Active" 
                     AND cts.default_nonmask_gateway = 1';

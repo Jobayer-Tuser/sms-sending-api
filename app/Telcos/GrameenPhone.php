@@ -1,5 +1,5 @@
 <?php
-namespace Telcos;
+namespace App\Telcos;
 use stdClass;
 
 class GrameenPhone implements TelcoInterface 
