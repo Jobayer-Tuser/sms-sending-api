@@ -2,6 +2,7 @@
 
 namespace App\Telcos;
 use App\Enums\SmsStatus;
+use App\Libs\HttpClient;
 
 class Teletalk implements TelcoInterface 
 {
@@ -21,7 +22,7 @@ class Teletalk implements TelcoInterface
             "Content-Type" => "application/json"
         ];
 
-        $response = $httpClient->doPost( config('Telcos.teletalk.single_api'), $params, $header);
+        $response = $httpClient->doPost(config('Telcos.teletalk.single_api'), $params, $header);
 
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
@@ -41,12 +42,12 @@ class Teletalk implements TelcoInterface
         $telRes->telcoResponse = $response;
         $telRes->status = SmsStatus::FAILED;
 
-        if ($res->error_no == 0) {
+        if ($res->error_code == 0) {
             $telRes->status = SmsStatus::SUCCESS;
             $telRes->telcoMsgId = $res->smsInfo[0]->smsID ?? "";
         }
 
-        return new TelcoResponse();
+        return $telRes;
     }
 
     /**

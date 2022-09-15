@@ -1,8 +1,7 @@
 <?php
 namespace App\Telcos;
 
-use Lib\HttpClient;
-use stdClass;
+use App\Libs\HttpClient;
 
 class Banglalink implements TelcoInterface 
 {
@@ -12,18 +11,20 @@ class Banglalink implements TelcoInterface
      * @param Object $data
      * @return TelcoResponse
      */
-    public function sendSms(Object $data) : TelcoResponse
+    public function sendSms($data) : TelcoResponse
     {
-        $params = $this->makeParams($data);  
+        $params = $this->makeParams($data);
         $httpClient = new HttpClient();
 
-        $url = '';
-        $params = new stdClass();
-        $header = [];
+        $header = [
+            "Accept" => "application/json",
+            "Content-Type" => "application/json"
+        ];
 
-        $response = $httpClient->doPost( $url, $params, $header);
-
-        return $this->processResponse($response);
+        $response = $httpClient->doPost(config("Telcos.gp.api_url"), $params, $header);
+        $telcoRes = $this->processResponse($response);
+        $telcoRes->telcoRequest = $params;
+        return $telcoRes;
 
     }
 
@@ -35,7 +36,17 @@ class Banglalink implements TelcoInterface
      */
     public function processResponse($response): TelcoResponse
     {
-        return new TelcoResponse();
+        $res = json_decode($response);
+        $telRes = new TelcoResponse();
+        $telRes->telcoResponse = $response;
+        $telRes->status = SmsStatus::FAILED;
+
+        if ($res->error_code == 0) {
+            $telRes->status = SmsStatus::SUCCESS;
+            $telRes->telcoMsgId = $res->smsInfo[0]->smsID ?? "";
+        }
+
+        return $telRes;
     }
 
     /**
@@ -43,7 +54,7 @@ class Banglalink implements TelcoInterface
      *
      * @return void
      */
-    public function makeParams()
+    public function makeParams($data)
     {
 
     }

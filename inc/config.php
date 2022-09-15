@@ -10,7 +10,7 @@ return [
     ],
     "Telcos" => [
         "gp" => [
-            "api_url" => ""
+            "api_url" => "https://gpcmp.grameenphone.com/ecmapigw/webresources/ecmapigw.v2"
         ],
         "teletalk" => [
             "single_api" => "https://bulkmsg.teletalk.com.bd/api/sendSMS"
