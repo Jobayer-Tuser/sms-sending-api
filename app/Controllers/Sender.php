@@ -17,7 +17,6 @@ class Sender
 
     public function ProcessSms($request) // $request 
     {
-
         //TODO:: get sender info from database
 
         $route = new TelcoRoute();
