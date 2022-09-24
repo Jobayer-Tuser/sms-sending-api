@@ -16,13 +16,7 @@ class Teletalk implements TelcoInterface
     {
         $params = $this->makeParams($data);  
         $httpClient = new HttpClient();
-
-        $header = [
-            "Accept" => "application/json",
-            "Content-Type" => "application/json"
-        ];
-
-        $response = $httpClient->doPost(config('Telcos.teletalk.single_api'), $params, $header);
+        $response = $httpClient->doPost(config('Telcos.teletalk.single_api'), $params);
 
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;

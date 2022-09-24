@@ -17,12 +17,7 @@ class GrameenPhone implements TelcoInterface
         $params = $this->makeParams($data);  
         $httpClient = new HttpClient();
 
-        $header = [
-            "Accept" => "application/json",
-            "Content-Type" => "application/json"
-        ];
-
-        $response = $httpClient->doPost( config("Telcos.gp.api_url"), $params, $header);
+        $response = $httpClient->doPost( config("Telcos.gp.api_url"), $params);
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
         return $telcoRes;
