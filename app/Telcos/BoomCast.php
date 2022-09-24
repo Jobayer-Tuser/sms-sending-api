@@ -26,9 +26,9 @@ class BoomCast implements TelcoInterface
         $telRes->telcoResponse = $response;
         $telRes->status = SmsStatus::FAILED;
 
-        if($res->error_code == 0){
+        if(isset($res[0]->success) && $res[0]->success == 1){
             $telRes->status = SmsStatus::SUCCESS;
-            $telRes->telcoMsgId = $res->smsInfoId ?? "";
+            $telRes->telcoMsgId = $res[0]->msgid ?? "";
         }
         return $telRes;
     }
