@@ -1,34 +1,24 @@
 <?php
+
 namespace App\Telcos;
 
+use App\Enum\SmsStatus;
 use App\Libs\HttpClient;
 
-class Banglalink implements TelcoInterface 
+class BoomCast implements TelcoInterface
 {
-    /**
-     * Undocumented function
-     *
-     * @param Object $data
-     * @return TelcoResponse
-     */
-    public function sendSms($data) : TelcoResponse
+
+    public function sendSms(object $data): TelcoResponse
     {
         $params = $this->makeParams($data);
         $httpClient = new HttpClient();
 
-        $response = $httpClient->doPost(config("Telcos.gp.api_url"), $params);
+        $response = $httpClient->doPost( config("Telcos.boomcast.api_url"), $params);
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
         return $telcoRes;
-
     }
 
-    /**
-     * Undocumented function
-     *
-     * @param [type] $response
-     * @return TelcoResponse
-     */
     public function processResponse($response): TelcoResponse
     {
         $res = json_decode($response);
@@ -36,22 +26,22 @@ class Banglalink implements TelcoInterface
         $telRes->telcoResponse = $response;
         $telRes->status = SmsStatus::FAILED;
 
-        if ($res->error_code == 0) {
+        if($res->error_code == 0){
             $telRes->status = SmsStatus::SUCCESS;
-            $telRes->telcoMsgId = $res->smsInfo[0]->smsID ?? "";
+            $telRes->telcoMsgId = $res->smsInfoId ?? "";
         }
-
         return $telRes;
     }
 
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
     public function makeParams($data)
     {
-
+        return json_decode([
+            "username" => $data['username'],
+            "password" => $data['password'],
+            "masking"  => $data['masking'],
+            "message"  => $data['message'],
+            "MsgType" => $data['message_type'],
+            "Receiver" => $data['receiver'],
+        ]);
     }
-    
 }

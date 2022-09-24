@@ -1,6 +1,6 @@
 <?php
 
-function setNonmaskSenderInfo($maskId = null)
+public function setNonmaskSenderInfo($maskId = null)
     {
         $sender = null;
         if ($maskId) {

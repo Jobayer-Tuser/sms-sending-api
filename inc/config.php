@@ -10,10 +10,13 @@ return [
     ],
     "Telcos" => [
         "gp" => [
-            "api_url" => ""
+            "api_url" => "//gpcmp.grameenphone.com/ecmapigw/webresources/ecmapigw.v2"
         ],
         "teletalk" => [
-            "single_api" => "https://bulkmsg.teletalk.com.bd/api/sendSMS"
+            "single_api" => "//bulkmsg.teletalk.com.bd/api/sendSMS"
+        ],
+        "boomcast" =>[
+            "api_url" => "//api.boomcast.com/boomcast/WebFramework/boomCastWebService/externalApiSendTextMessage.php"
         ]
     ],
     "curl" => [
