@@ -12,10 +12,10 @@ class TelcoRoute {
         $this->db = Eloquent::getInstance();
     }
 
-    public function getTelcoRoute(int $maskId, string $maskType, string $telPrefix) : object
+    public function getTelcoRoute(int $maskId, string $maskType, string $telPrefix) : array
     {
         if ($maskType == "Mask") {
-           $route = $this->getMaskingTelco($maskId, $telPrefix);
+            $route = $this->getMaskingTelco($maskId, $telPrefix);
             if ($route) {
                 return $route;
             }
@@ -26,6 +26,8 @@ class TelcoRoute {
         if ($route) {
             $route = $this->getDefaultNonmaskTelco();
         }
+        // echo json_encode($route);
+        
         return $route;
     }
 
@@ -44,7 +46,7 @@ class TelcoRoute {
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 
                     ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN Telcos AS t 
+                LEFT JOIN `telcos` AS t 
                     ON t.id =  mtsr.telco_id
                 WHERE t.telco_prefix = "'. $telPrefix .'"
                     AND mtsr.mask_id = "'. $maskId.'" 
@@ -86,25 +88,33 @@ class TelcoRoute {
     }
 
 
-    public function getDefaultNonMaskTelco() : object
+    public function getDefaultNonMaskTelco() : array
     {
         $sql = 'SELECT 
-                    "" AS mask_name
+                    "" AS mask_name,
                     cts.telco_id,
                     cts.telco_username,
                     cts.telco_password,
                     cts.sender_number,
                     cts.id AS sender_id ,
                     "Nonmask" AS telco_mask_type,
-                    t.tel_prefix 
+                    t.telco_prefix ,
+                    t.telco_name
 
-                FROM config_telco_senders AS cts ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN Telcos AS t ON t.id =  mtsr.telco_id
+                FROM `mask_telco_sender_routes` AS mtsr 
+                LEFT JOIN config_telco_senders AS cts 
+                    ON mtsr.config_telco_sender_id = cts.id
+                LEFT JOIN telcos AS t ON t.id =  mtsr.telco_id
                 WHERE cts.status = "Active" 
                     AND t.status = "Active" 
                     AND cts.default_nonmask_gateway = 1';
 
         return  $this->db->getFirst($sql);
+    }
+
+    public function getTelcoLogs()
+    {
+        
     }
 
 }

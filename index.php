@@ -4,8 +4,13 @@ require_once(__DIR__ . "/inc/bootstrap.php");
 use App\Controllers\TelcoRoute;
 use App\Controllers\Sender;
 
-$telcoRoute = new TelcoRoute();
-$getMaskingTelco = $telcoRoute->getMaskingTelco(2, "017");
+$sender =  new Sender();
+$sender->ProcessSms($_POST);
+
+ # msisdn sms uuid mask_type id
+
+
+// $getMaskingTelco = $telcoRoute->getMaskingTelco(2, "017");
 // echo '<pre>';
 // print_r($getMaskingTelco);
 // echo '</pre>';
@@ -14,6 +19,3 @@ $getMaskingTelco = $telcoRoute->getMaskingTelco(2, "017");
 // echo "<pre>";
 // print_r($getNonMaskTelco);
 // echo "</pre>";
-
-
-

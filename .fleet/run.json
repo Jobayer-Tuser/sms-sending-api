@@ -1,0 +1,13 @@
+{
+    "configurations": [
+        {
+          "type": "php",
+          "name": "php",
+          "environment": {
+          
+          },
+          "file": "index.php",
+        },
+
+    ]
+}

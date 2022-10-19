@@ -2,18 +2,18 @@
 
 namespace App\Telcos;
 
-use App\Enum\SmsStatus;
+use App\Enums\SmsStatus;
 use App\Libs\HttpClient;
 
 class BoomCast implements TelcoInterface
 {
 
-    public function sendSms(object $data): TelcoResponse
+    public function sendSms($request, $route)//: TelcoResponse
     {
-        $params = $this->makeParams($data);
+        $params = $this->makeParams($request,$route);
         $httpClient = new HttpClient();
 
-        $response = $httpClient->doPost( config("Telcos.boomcast.api_url"), $params);
+        $response = $httpClient->doPost( config("telcos.boomcast.api_url"), $params);
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
         return $telcoRes;
@@ -26,22 +26,23 @@ class BoomCast implements TelcoInterface
         $telRes->telcoResponse = $response;
         $telRes->status = SmsStatus::FAILED;
 
-        if($res->error_code == 0){
+        if(isset($res[0]->success) && $res[0]->success == 1){
             $telRes->status = SmsStatus::SUCCESS;
-            $telRes->telcoMsgId = $res->smsInfoId ?? "";
+            $telRes->telcoMsgId = $res[0]->msgId ?? "";
         }
         return $telRes;
     }
 
-    public function makeParams($data)
+    public function makeParams($request, $route)
     {
-        return json_decode([
-            "username" => $data['username'],
-            "password" => $data['password'],
-            "masking"  => $data['masking'],
-            "message"  => $data['message'],
-            "MsgType" => $data['message_type'],
-            "Receiver" => $data['receiver'],
+        $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT":"UNICODE";
+        return json_encode([
+            "username" => $route->telco_username,
+            "password" => $route->telco_password,
+            "masking"  => $route->telco_mask_type,
+            "message"  => $request['sms'],
+            "MsgType" =>  $msgType,
+            "Receiver" => $request['misdn'],
         ]);
     }
 }

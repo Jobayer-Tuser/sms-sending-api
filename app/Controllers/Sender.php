@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Enums\SmsStatus;
 use stdClass;
 use App\Libs\Eloquent;
-use App\Telcos\{Teletalk, Banglalink, Grameenphone, Robi};
+use App\Telcos\{Teletalk, Banglalink, BoomCast, Grameenphone, Robi};
 
 class Sender
 {
@@ -21,38 +21,38 @@ class Sender
 
         $route = new TelcoRoute();
 
-        $route = $route->getTelcoRoute($request->mask_id,$request->mask_type,$request->telco_prefix);
-    
-        $data = [];
+        $route = $route->getTelcoRoute($request['mask_id'], $request['mask_type'], $request['telco_prefix']);
 
-        $telco = $this->getTelcoInstance($route->tel_prefix);
+        $telco = $this->getTelcoInstance($route['telco_name']);
 
-        $telcoResponse =  $telco->sendSms([
-            ""
-        ]);
+        return $telcoResponse =  $telco->sendSms($request, $route);
 
         if ($telcoResponse->status == SmsStatus::SUCCESS) {
 
         }
 
         $this->insertDataToSmsReport($request);
+        $this->saveTelcoResponse($request);
     }
 
 
-    private function getTelcoInstance(string $telPrefix) : object
+    private function getTelcoInstance(string $telcoName) : object
     {
-        switch($telPrefix) {
-            case "018" :
+        switch($telcoName) {
+            case "ROBI" :
                 $telco =  new Robi();
                 break;
-            case "019" :
+            case "AIRTEL" :
                 $telco =  new Banglalink();
                 break;
-            case "017" : 
+            case "TELETALK" : 
                 $telco =  new GrameenPhone();
                 break;
-            case "014" : 
+            case "BANGLALINK" : 
                 $telco =  new Teletalk();
+                break;
+            case "INFOBIP" : 
+                $telco =  new BoomCast();
                 break;
             default:
                 throw new \Exception("");
@@ -66,10 +66,22 @@ class Sender
         return new stdClass();
     }
 
-    private function insertDataToSmsReport($request) : void
+    public function insertDataToSmsReport($request) : void
     {
-        # INSERT DATA #
         $tableName = "sms_report";
+        $columnValue = [];
+        foreach ($request as $key => $value){
+            $columnValue[$key] = $value;
+        }
+        $queryResult = $this->db->insertData($tableName, $columnValue);
+        // echo $queryResult['LAST_INSERT_ID'];
+        // echo $queryResult['NO_OF_ROW_INSERTED'];
+        echo "<pre>";
+        print_r($queryResult);
+        echo "</pre>";
+
+        # INSERT DATA #
+        /*$tableName = "sms_report";
         $columnValue["old_id"] = $request->id;
         $columnValue["client_id"] =$request->id;
         $columnValue["client_channel"] = $request->client_channel;
@@ -96,7 +108,11 @@ class Sender
         $columnValue["updated_at"] = null;
         $queryResult = $this->db->insertData($tableName, $columnValue);
         echo $queryResult['LAST_INSERT_ID'];
-        echo $queryResult['NO_OF_ROW_INSERTED'];
+        echo $queryResult['NO_OF_ROW_INSERTED'];*/
+    }
+
+    private function saveTelcoResponse($request){
+
     }
 
 }
