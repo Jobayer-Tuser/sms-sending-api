@@ -16,7 +16,7 @@ return [
             "single_api" => "//bulkmsg.teletalk.com.bd/api/sendSMS"
         ],
         "boomcast" =>[
-            "api_url" => "//api.boomcast.com/boomcast/WebFramework/boomCastWebService/externalApiSendTextMessage.php"
+            "api_url" => "http://api.boom-cast.com/boomcast/WebFramework/boomCastWebService/externalApiSendTextMessage.php"
         ]
     ],
     "curl" => [

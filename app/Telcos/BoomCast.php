@@ -10,10 +10,12 @@ class BoomCast implements TelcoInterface
 
     public function sendSms($request, $route)//: TelcoResponse
     {
-        $params = $this->makeParams($request,$route);
+        $params = $this->makeParams($request, $route);
         $httpClient = new HttpClient();
 
-        $response = $httpClient->doPost( config("telcos.boomcast.api_url"), $params);
+        $response = $httpClient->doPost(config("Telcos.boomcast.api_url"), $params);
+        var_dump($response);
+        
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
         return $telcoRes;
@@ -35,23 +37,14 @@ class BoomCast implements TelcoInterface
 
     public function makeParams($request, $route)
     {
-        // echo '<pre>';
-        // print_r($request);
-        // echo '</pre>';
-
-        echo '<pre>';
-        print_r($route);
-        echo '</pre>';
-        
-        
         $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT":"UNICODE";
-        return json_encode([
-            "username" => $route->telco_username,
+        return http_build_query([
+            "userName" => $route->telco_username,
             "password" => $route->telco_password,
-            "masking"  => $route->telco_mask_type,
+            "masking"  => (strtolower($route->telco_mask_type) == "nonmask") ? "NOMASK" : $route->mask,
             "message"  => $request['sms'],
             "MsgType" =>  $msgType,
-            "Receiver" => $request['misdn'],
+            "receiver" => $request['misdn'],
         ]);
     }
 }

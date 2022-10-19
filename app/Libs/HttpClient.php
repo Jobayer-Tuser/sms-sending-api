@@ -4,7 +4,7 @@ namespace App\Libs;
 
 class HttpClient {
 
-    public function doGet(string $url) : string
+    public function doGet(string $url)
     {
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -18,13 +18,12 @@ class HttpClient {
             CURLOPT_CUSTOMREQUEST => 'GET',
             CURLOPT_HTTPHEADER => [
                 "Accept" => "application/json",
-                "Content-Type" => "application/json"
             ]
         ));
 
         $response = curl_exec($curl);
 
-        if (curl_errno()) {
+        if (curl_errno($curl)) {
             writeErrorLog(curl_error($curl));
         }
 
@@ -32,8 +31,8 @@ class HttpClient {
         return $response;
     }
 
-    public function doPost(string $url , Object $data) : string
-    {
+    public function doPost(string $url , $data)
+    { 
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -46,14 +45,14 @@ class HttpClient {
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_HTTPHEADER => [
                 "Accept" => "application/json",
-                "Content-Type" => "application/json"
             ],
             CURLOPT_POSTFIELDS => $data
         ));
 
         $response = curl_exec($curl);
-        if (curl_errno()) {
-            writeErrorLog(curl_error($curl));
+
+        if (curl_error($curl)) {
+            writeErrorLog($response);
         }
         curl_close($curl);
         return $response;
