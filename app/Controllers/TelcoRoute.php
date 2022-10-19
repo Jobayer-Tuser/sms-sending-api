@@ -12,7 +12,7 @@ class TelcoRoute {
         $this->db = Eloquent::getInstance();
     }
 
-    public function getTelcoRoute(int $maskId, string $maskType, string $telPrefix) : array
+    public function getTelcoRoute(int $maskId, string $maskType, string $telPrefix) 
     {
         if ($maskType == "Mask") {
             $route = $this->getMaskingTelco($maskId, $telPrefix);
@@ -88,7 +88,7 @@ class TelcoRoute {
     }
 
 
-    public function getDefaultNonMaskTelco() : array
+    public function getDefaultNonMaskTelco()
     {
         $sql = 'SELECT 
                     "" AS mask_name,

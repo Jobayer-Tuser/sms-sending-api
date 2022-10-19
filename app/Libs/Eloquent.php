@@ -19,6 +19,7 @@ class Eloquent
 		$this->connection = new PDO('mysql:host='.$host.';dbname='.$dbName.';charset=utf8', $user, $pass);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+		$this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 	}
 
     # Making our class as singleton instance

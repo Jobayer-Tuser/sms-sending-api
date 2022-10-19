@@ -23,7 +23,7 @@ class Sender
 
         $route = $route->getTelcoRoute($request['mask_id'], $request['mask_type'], $request['telco_prefix']);
 
-        $telco = $this->getTelcoInstance($route['telco_name']);
+        $telco = $this->getTelcoInstance($route->telco_name);
 
         return $telcoResponse =  $telco->sendSms($request, $route);
 
@@ -51,7 +51,7 @@ class Sender
             case "BANGLALINK" : 
                 $telco =  new Teletalk();
                 break;
-            case "INFOBIP" : 
+            case "BOOMCAST" : 
                 $telco =  new BoomCast();
                 break;
             default:
