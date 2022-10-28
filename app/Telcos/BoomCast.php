@@ -14,7 +14,6 @@ class BoomCast implements TelcoInterface
         $httpClient = new HttpClient();
 
         $response = $httpClient->doPost(config("Telcos.boomcast.api_url"), $params);
-        var_dump($response);
         
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
