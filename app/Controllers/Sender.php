@@ -21,7 +21,9 @@ class Sender
 
         $route = new TelcoRoute();
 
-        $route = $route->getTelcoRoute($request['mask_id'], $request['mask_type'], $request['telco_prefix']);
+        $telPrefix = substr($request['msisdn'],-11,3);
+
+        $route = $route->getTelcoRoute($request['mask_id'], $request['mask_type'], $telPrefix);
 
         $telco = $this->getTelcoInstance($route->telco_name);
 
@@ -30,8 +32,6 @@ class Sender
         if ($telcoResponse->status == SmsStatus::SUCCESS) {
 
         }
-
-        $this->insertDataToSmsReport($request);
         $this->saveTelcoResponse($request);
     }
 
