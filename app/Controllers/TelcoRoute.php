@@ -23,7 +23,7 @@ class TelcoRoute {
 
         $route = $this->getNonMaskTelco($maskId);
         
-        if ($route) {
+        if (!$route) {
             $route = $this->getDefaultNonmaskTelco();
         }
         // echo json_encode($route);
@@ -70,7 +70,8 @@ class TelcoRoute {
                     cts.sender_number,
                     cts.id AS sender_id,
                     "Nonmask" AS telco_mask_type,
-                    t.telco_prefix 
+                    t.telco_prefix,
+                    t.telco_name
 
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 

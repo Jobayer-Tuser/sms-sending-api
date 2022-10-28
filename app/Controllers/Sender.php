@@ -27,12 +27,12 @@ class Sender
 
         $telco = $this->getTelcoInstance($route->telco_name);
 
-        return $telcoResponse =  $telco->sendSms($request, $route);
-
+        $telcoResponse =  $telco->sendSms($request, $route);
+        $resp = json_decode($telcoResponse->telco_response);
+        // var_dump($telcoResponse);
         if ($telcoResponse->status == SmsStatus::SUCCESS) {
-
+           
         }
-        $this->saveTelcoResponse($request);
     }
 
 
@@ -60,59 +60,4 @@ class Sender
         }
         return $telco;
     }
-
-    private function sendSms($data) : Object
-    {
-        return new stdClass();
-    }
-
-    public function insertDataToSmsReport($request) : void
-    {
-        $tableName = "sms_report";
-        $columnValue = [];
-        foreach ($request as $key => $value){
-            $columnValue[$key] = $value;
-        }
-        $queryResult = $this->db->insertData($tableName, $columnValue);
-        // echo $queryResult['LAST_INSERT_ID'];
-        // echo $queryResult['NO_OF_ROW_INSERTED'];
-        echo "<pre>";
-        print_r($queryResult);
-        echo "</pre>";
-
-        # INSERT DATA #
-        /*$tableName = "sms_report";
-        $columnValue["old_id"] = $request->id;
-        $columnValue["client_id"] =$request->id;
-        $columnValue["client_channel"] = $request->client_channel;
-        $columnValue["sms_uid"] = $request->sms_uid;
-        $columnValue["campaign_id"] = null;
-        $columnValue["campaign_type"] = null;
-        $columnValue["mask_type"] = null;
-        $columnValue["localization"] = null;
-        $columnValue["sender_number"] = null;
-        $columnValue["telco_rate"] = null;
-        $columnValue["receiver_number"] = null;
-        $columnValue["message_body"] = null;
-        $columnValue["message_type"] = null;
-        $columnValue["message_qty"] = null;
-        $columnValue["telco_message_qty"] = null;
-        $columnValue["sms_status"] = null;
-        $columnValue["handset_delivery"] = null;
-        $columnValue["sent_time"] = null;
-        $columnValue["schedule_time"] = null;
-        $columnValue["is_sent"] = null;
-        $columnValue["no_of_attempt"] = null;
-        $columnValue["telco_response_id"] = null;
-        $columnValue["created_at"] = null;
-        $columnValue["updated_at"] = null;
-        $queryResult = $this->db->insertData($tableName, $columnValue);
-        echo $queryResult['LAST_INSERT_ID'];
-        echo $queryResult['NO_OF_ROW_INSERTED'];*/
-    }
-
-    private function saveTelcoResponse($request){
-
-    }
-
 }

@@ -25,8 +25,8 @@ class BoomCast implements TelcoInterface
         $res = json_decode($response);
         $telRes = new TelcoResponse();
         $telRes->telcoResponse = $response;
+        
         $telRes->status = SmsStatus::FAILED;
-
         if(isset($res[0]->success) && $res[0]->success == 1){
             $telRes->status = SmsStatus::SUCCESS;
             $telRes->telcoMsgId = $res[0]->msgId ?? "";
@@ -39,11 +39,11 @@ class BoomCast implements TelcoInterface
         $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT":"UNICODE";
         return http_build_query([
             "userName" => $route->telco_username,
-            "password" => $route->telco_password,
+            "password" => $route->telco_password . "1",
             "masking"  => (strtolower($route->telco_mask_type) == "nonmask") ? "NOMASK" : $route->mask,
             "message"  => $request['sms'],
             "MsgType" =>  $msgType,
-            "receiver" => $request['misdn'],
+            "receiver" => $request['msisdn'],
         ]);
     }
 }
