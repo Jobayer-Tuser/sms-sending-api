@@ -1,6 +1,6 @@
 <?php
 namespace App\Telcos;
-use App\Enum\SmsStatus;
+use App\Enums\SmsStatus;
 use App\Libs\HttpClient;
 
 class GrameenPhone implements TelcoInterface 
@@ -51,7 +51,7 @@ class GrameenPhone implements TelcoInterface
      */
     public function makeParams($data)
     {
-        return json_decode([
+        return json_encode([
             "username"      => $data['username'],
             "password"      => $data['password'],
             "apicode"       => $data['apicode'],

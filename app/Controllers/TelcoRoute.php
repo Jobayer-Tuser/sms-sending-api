@@ -26,8 +26,6 @@ class TelcoRoute {
         if (!$route) {
             $route = $this->getDefaultNonmaskTelco();
         }
-        // echo json_encode($route);
-        
         return $route;
     }
 

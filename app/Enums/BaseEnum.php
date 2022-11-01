@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 use ReflectionClass;
+use Log;
 
 abstract class BaseEnum
 {
-
     /**
      * @return array
      */
@@ -14,7 +14,7 @@ abstract class BaseEnum
         try {
             $class = new ReflectionClass(get_called_class());
         } catch (\ReflectionException $e) {
-            \Log::error('Enums Reflection Class Error: '. $e->getMessage());
+            Log::error('Enums Reflection Class Error: '. $e->getMessage());
         }
         return array_keys($class->getConstants());
     }
@@ -26,7 +26,7 @@ abstract class BaseEnum
         try {
             $class = new ReflectionClass(get_called_class());
         } catch (\ReflectionException $e) {
-            \Log::error('Reflection Class Error: '. $e->getMessage());
+            Log::error('Reflection Class Error: '. $e->getMessage());
         }
         return array_values($class->getConstants());
     }
@@ -40,7 +40,7 @@ abstract class BaseEnum
             $enum = array_flip($class->getConstants())  ;
             return str_replace('_',' ', $enum[$value]);
         } catch (\ReflectionException $e) {
-            \Log::error('Reflection Class Error: '. $e->getMessage());
+            Log::error('Reflection Class Error: '. $e->getMessage());
         }
         return null;
     }

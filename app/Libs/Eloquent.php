@@ -373,6 +373,11 @@ class Eloquent
 		}
 	}
 
+	public function __destruct()
+	{
+		// $this->connection->close();
+	}
+
 
     private function __clone(){}
 }

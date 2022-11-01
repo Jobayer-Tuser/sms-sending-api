@@ -22,5 +22,12 @@ return [
     "curl" => [
         "con_timeout" => 30,
         "opt_timeout" => 30
+    ],
+    "log_path" => "./logs",
+    "rabitmq" => [
+        "host" => "localhost",
+        "port" => 5672,
+        "username" => "guest",
+        "password" => "guest",
     ]
 ];
