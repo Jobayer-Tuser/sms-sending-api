@@ -74,7 +74,7 @@ class TelcoRoute {
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 
                     ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN Telcos AS t 
+                LEFT JOIN telcos AS t 
                     ON t.id =  mtsr.telco_id
                 WHERE mtsr.mask_id = "'. $maskId .'" 
                     AND mtsr.status = "Active" 

@@ -3,10 +3,10 @@
 return [
     "database" => [
         "host" => "localhost",
-        "port" => "",
+        "port" => "3306",
         "user" => "root",
-        "password" => "RootPass!@",
-        "db_name" => "sms_gateway_rdb"
+        "password" => "superV@nexuS22",
+        "db_name" => "superb_smsbd"
     ],
     "Telcos" => [
         "gp" => [

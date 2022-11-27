@@ -11,4 +11,3 @@ echo $sender->ProcessSms($data);
 // var_dump($data);
 // echo json_encode($data);
 
-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
