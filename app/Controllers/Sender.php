@@ -24,6 +24,7 @@ class Sender
     public function ProcessSms($request) : string  
     {
         try{
+            
             $telPrefix = substr($request['msisdn'],-11,3);
             $route = $this->telcoRoute->getTelcoRoute($request['mask_id'], $request['mask_type'], $telPrefix);
             $telco = $this->getTelcoInstance($route->telco_name);
@@ -43,6 +44,7 @@ class Sender
             return json_encode(["status" => $status,"referenceId" => $telcoResponse->telcoMsgId]);
 
         } catch ( Exception $exception ){
+           
             return json_encode(["status" => SmsStatus::ERROR, "referenceId" => ""]);
         }
     }
@@ -50,7 +52,7 @@ class Sender
 
     private function getTelcoInstance(string $telcoName) : object
     {
-        switch($telcoName) {
+        switch(strtoupper($telcoName)) {
             case "ROBI" :
                 $telco =  new Robi();
                 break;
@@ -85,7 +87,7 @@ class Sender
         $columnValue["request_time"]    = $this->requestTime;
         $columnValue["response_time"]   = $this->responseTime;
         $columnValue["created_at"]      = date("Y-m-d H:i:s");
-
+        
         $queryResult = $this->db->insertData($tableName, $columnValue);
     }
 }

@@ -60,11 +60,13 @@ class Eloquent
 		try
 		{
 			$sql1 = "INSERT INTO `$tableName` SET ";
+
+			$sql2 = "";
 			
 			foreach($columnValue AS $ca1Column => $ca1Value)
 			{
 				$ca1ColumnUpper = strtoupper($ca1Column);
-				@$sql2 .= "`$ca1Column`=:$ca1ColumnUpper, ";
+				$sql2 .= "`$ca1Column`=:$ca1ColumnUpper, ";
 			}
 			$sql2 = rtrim(@$sql2, ", ");
 			
@@ -76,6 +78,7 @@ class Eloquent
 				$ca2ColumnUpper = strtoupper($ca2Column);
 				$postSQL[$ca2ColumnUpper] = $ca2Value;
 			}
+			
 			$query->execute($postSQL);
 			$dataAdded = $query->rowCount();
 			$lastInsertId = $this->connection->lastInsertId();
@@ -84,6 +87,7 @@ class Eloquent
 		}
 		catch(\Exception $e) 
 		{
+			echo $e->getMessage();
 			return 0;
 		}
 	}
