@@ -40,7 +40,7 @@ class BoomCast implements TelcoInterface
         return http_build_query([
             "userName" => $route->telco_username,
             "password" => $route->telco_password,
-            "masking"  => (strtolower($route->telco_mask_type) == "nonmask") ? "NOMASK" : $route->mask,
+            "masking"  => (strtolower($route->telco_mask_type) == "nonmask") ? "NOMASK" : $route->mask_name,
             "message"  => $request['sms'],
             "MsgType" =>  $msgType,
             "receiver" => $request['msisdn'],
