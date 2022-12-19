@@ -37,7 +37,7 @@ class Sender
             if (isset($telcoResponse->status) && $telcoResponse->status == SmsStatus::SUCCESS) {
                 $status = SmsStatus::SUCCESS;
             } else {
-                $status = SmsStatus::FAILED;
+                $status = SmsStatus::ATTEMPTED;
             }
 
             $this->saveTelcoResponse($request, $route, $telcoResponse);
@@ -81,6 +81,7 @@ class Sender
         $columnValue["telco_id"]        = $route->telco_id;
         $columnValue["sender_id"]       = $route->sender_id;
         $columnValue["sms_uid"]         = $request['sms_uid'];
+        $columnValue["msisdn"]         = $request['msisdn'];
         $columnValue["status"]          = ($telcoResponse->status == "FAILED") ? 0 : 1;
         $columnValue["request_params"]  = $telcoResponse->telcoRequest;
         $columnValue["response"]        = $telcoResponse->telcoResponse;

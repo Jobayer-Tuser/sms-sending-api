@@ -46,8 +46,7 @@ class TelcoRoute {
                     ON mtsr.config_telco_sender_id = cts.id
                 LEFT JOIN `telcos` AS t 
                     ON t.id =  mtsr.telco_id
-                WHERE t.telco_prefix = "'. $telPrefix .'"
-                    AND mtsr.mask_id = "'. $maskId.'" 
+                WHERE mtsr.mask_id = "'. $maskId.'" 
                     AND mtsr.status = "Active" 
                     AND cts.status = "Active" 
                     AND t.status = "Active" 
