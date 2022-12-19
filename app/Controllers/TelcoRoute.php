@@ -32,6 +32,7 @@ class TelcoRoute {
     public function getMaskingTelco(int $maskId, string $telPrefix)
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     mtsr.mask_name,
                     mtsr.telco_id,
                     mtsr.telco_mask_type,
@@ -60,6 +61,7 @@ class TelcoRoute {
     public function getNonMaskTelco(int $maskId)
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     mtsr.mask_name,
                     mtsr.telco_id,
                     cts.telco_username,
@@ -89,6 +91,7 @@ class TelcoRoute {
     public function getDefaultNonMaskTelco()
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     "" AS mask_name,
                     cts.telco_id,
                     cts.telco_username,
