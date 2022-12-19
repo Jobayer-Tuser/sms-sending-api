@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Enums\SmsStatus;
 use stdClass;
 use App\Libs\Eloquent;
+use App\Libs\Log;
 use App\Telcos\{Teletalk, Banglalink, BoomCast, Grameenphone, Robi};
 use Exception;
 
@@ -24,9 +25,11 @@ class Sender
     public function ProcessSms($request) : string  
     {
         try{
-            
+            Log::info("request:".json_encode($request));
+
             $telPrefix = substr($request['msisdn'],-11,3);
             $route = $this->telcoRoute->getTelcoRoute($request['mask_id'], $request['mask_type'], $telPrefix);
+            Log::info("telco_route:".json_encode($request));
             $telco = $this->getTelcoInstance($route->telco_name);
 
             $this->requestTime = date("Y-m-d H:i:s");
@@ -36,6 +39,7 @@ class Sender
 
             if (isset($telcoResponse->status) && $telcoResponse->status == SmsStatus::SUCCESS) {
                 $status = SmsStatus::SUCCESS;
+                
             } else {
                 $status = SmsStatus::ATTEMPTED;
             }
