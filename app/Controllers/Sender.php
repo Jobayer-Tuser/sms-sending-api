@@ -39,7 +39,7 @@ class Sender
 
             if (isset($telcoResponse->status) && $telcoResponse->status == SmsStatus::SUCCESS) {
                 $status = SmsStatus::SUCCESS;
-                
+                $this->updateSms($request, $route);
             } else {
                 $status = SmsStatus::ATTEMPTED;
             }
@@ -77,6 +77,14 @@ class Sender
                 break;
         }
         return $telco;
+    }
+
+    private function updateSms($request, $route) : void
+    {   
+        $sql = "update ".$request['sms_table']. " set sender_telco_id='".$route->telco_id."',sender_id=".$route->sender_id;
+        $sql .= " where id = ".$request['id'];
+        
+        $queryResult = $this->db->query($sql);
     }
 
     private function saveTelcoResponse($request, $route, $telcoResponse) : void
