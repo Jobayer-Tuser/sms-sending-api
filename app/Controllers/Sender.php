@@ -47,8 +47,8 @@ class Sender
             $this->saveTelcoResponse($request, $route, $telcoResponse);
             return json_encode(["status" => $status,"referenceId" => $telcoResponse->telcoMsgId]);
 
-        } catch ( Exception $exception ){
-           
+        } catch ( Exception $e){
+           writeErrorLog("sender error:".$e->getMessage());
             return json_encode(["status" => SmsStatus::ERROR, "referenceId" => ""]);
         }
     }
@@ -81,10 +81,16 @@ class Sender
 
     private function updateSms($request, $route) : void
     {   
-        $sql = "update ".$request['sms_table']. " set sender_telco_id='".$route->telco_id."',sender_id=".$route->sender_id;
-        $sql .= " where id = ".$request['id'];
-        
-        $queryResult = $this->db->query($sql);
+        try{
+            $sql = "update ".$request['sms_table']. " set sender_telco_id='".$route->telco_id."',sender_id=".$route->sender_id;
+            $sql .= " where id = ".$request['id'];
+            writeInfoLog($sql);
+            
+            $this->db->query($sql);
+        } catch(Exception $ex){
+            writeErrorLog("sms update error:".$ex->getMessage());
+        }
+  
     }
 
     private function saveTelcoResponse($request, $route, $telcoResponse) : void
