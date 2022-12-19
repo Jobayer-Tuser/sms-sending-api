@@ -29,7 +29,7 @@ class Sender
 
             $telPrefix = substr($request['msisdn'],-11,3);
             $route = $this->telcoRoute->getTelcoRoute($request['mask_id'], $request['mask_type'], $telPrefix);
-            Log::info("telco_route:".json_encode($request));
+            Log::info("telco_route:".json_encode($route));
             $telco = $this->getTelcoInstance($route->telco_name);
 
             $this->requestTime = date("Y-m-d H:i:s");

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libs;
+use App\Libs\Log;
 
 class HttpClient {
 
