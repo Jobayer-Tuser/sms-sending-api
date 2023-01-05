@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libs;
+
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
@@ -8,13 +9,15 @@ class RabitMQ
 {
     private object $mqChannel;
     private object $connection;
+    private string $queue;
 
-    public function __construct(private string $queue)
+    public function __construct(string $queue)
     {
+        $this->queue = $queue;
         $this->connection = new AMQPStreamConnection(
             config("rabitmq.host"),
             config("rabitmq.port"),
-            config("rabitmq.user"),
+            config("rabitmq.username"),
             config("rabitmq.password")
         );
 
@@ -33,12 +36,9 @@ class RabitMQ
 
     public function publisher($data)
     {
-        while (true){
-            $message = new AMQPMessage(json_encode($data, JSON_UNESCAPED_SLASHES), ["delivery_mode" => 2]);
-            $this->mqChannel->basic_publish($message, '', $this->queue);
-            echo "Job Created for : " . $this->queue;
-            sleep(1);
-        }
+        $message = new AMQPMessage(json_encode($data, JSON_UNESCAPED_SLASHES), ["delivery_mode" => 2]);
+        $this->mqChannel->basic_publish($message, '', $this->queue);
+            echo "Job Created for : ". $this->queue;
     }
 
     public function consumer()

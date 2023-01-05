@@ -15,3 +15,5 @@ yarn-error.log
 .vscode
 .fleet
 /public/template
+./log_sms_response
+/inc/config.example.php
