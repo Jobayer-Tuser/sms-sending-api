@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Libs;
+use App\Libs\Log;
 
 class HttpClient {
 
@@ -33,6 +34,7 @@ class HttpClient {
 
     public function doPost(string $url , $data)
     { 
+        Log::info("telco_request:".json_encode($data));
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => $url,
@@ -50,7 +52,7 @@ class HttpClient {
         ));
 
         $response = curl_exec($curl);
-
+        Log::info("telco_response:".json_encode($response));
         if (curl_error($curl)) {
             writeErrorLog($response);
         }

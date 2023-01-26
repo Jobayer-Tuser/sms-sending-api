@@ -32,6 +32,7 @@ class TelcoRoute {
     public function getMaskingTelco(int $maskId, string $telPrefix)
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     mtsr.mask_name,
                     mtsr.telco_id,
                     mtsr.telco_mask_type,
@@ -46,8 +47,7 @@ class TelcoRoute {
                     ON mtsr.config_telco_sender_id = cts.id
                 LEFT JOIN `telcos` AS t 
                     ON t.id =  mtsr.telco_id
-                WHERE t.telco_prefix = "'. $telPrefix .'"
-                    AND mtsr.mask_id = "'. $maskId.'" 
+                WHERE mtsr.mask_id = "'. $maskId.'" 
                     AND mtsr.status = "Active" 
                     AND cts.status = "Active" 
                     AND t.status = "Active" 
@@ -61,6 +61,7 @@ class TelcoRoute {
     public function getNonMaskTelco(int $maskId)
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     mtsr.mask_name,
                     mtsr.telco_id,
                     cts.telco_username,
@@ -74,7 +75,7 @@ class TelcoRoute {
                 FROM `mask_telco_sender_routes` AS mtsr 
                 LEFT JOIN config_telco_senders AS cts 
                     ON mtsr.config_telco_sender_id = cts.id
-                LEFT JOIN Telcos AS t 
+                LEFT JOIN telcos AS t 
                     ON t.id =  mtsr.telco_id
                 WHERE mtsr.mask_id = "'. $maskId .'" 
                     AND mtsr.status = "Active" 
@@ -90,6 +91,7 @@ class TelcoRoute {
     public function getDefaultNonMaskTelco()
     {
         $sql = 'SELECT 
+                    t.telco_name,
                     "" AS mask_name,
                     cts.telco_id,
                     cts.telco_username,

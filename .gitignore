@@ -16,4 +16,4 @@ yarn-error.log
 .fleet
 /public/template
 /logs_sms_response
-/inc/config.example.php
+/inc/config.php
