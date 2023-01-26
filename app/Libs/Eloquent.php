@@ -19,6 +19,7 @@ class Eloquent
 		$this->connection = new PDO('mysql:host='.$host.';dbname='.$dbName.';charset=utf8', $user, $pass);
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+		$this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 	}
 
     # Making our class as singleton instance
@@ -59,11 +60,13 @@ class Eloquent
 		try
 		{
 			$sql1 = "INSERT INTO `$tableName` SET ";
+
+			$sql2 = "";
 			
 			foreach($columnValue AS $ca1Column => $ca1Value)
 			{
 				$ca1ColumnUpper = strtoupper($ca1Column);
-				@$sql2 .= "`$ca1Column`=:$ca1ColumnUpper, ";
+				$sql2 .= "`$ca1Column`=:$ca1ColumnUpper, ";
 			}
 			$sql2 = rtrim(@$sql2, ", ");
 			
@@ -75,6 +78,7 @@ class Eloquent
 				$ca2ColumnUpper = strtoupper($ca2Column);
 				$postSQL[$ca2ColumnUpper] = $ca2Value;
 			}
+			
 			$query->execute($postSQL);
 			$dataAdded = $query->rowCount();
 			$lastInsertId = $this->connection->lastInsertId();
@@ -83,6 +87,7 @@ class Eloquent
 		}
 		catch(\Exception $e) 
 		{
+			echo $e->getMessage();
 			return 0;
 		}
 	}
@@ -370,6 +375,11 @@ class Eloquent
 		{
 			return 0;
 		}
+	}
+
+	public function __destruct()
+	{
+		// $this->connection->close();
 	}
 
 

@@ -10,10 +10,11 @@ class BoomCast implements TelcoInterface
 
     public function sendSms($request, $route)//: TelcoResponse
     {
-        $params = $this->makeParams($request,$route);
+        $params = $this->makeParams($request, $route);
         $httpClient = new HttpClient();
 
-        $response = $httpClient->doPost( config("telcos.boomcast.api_url"), $params);
+        $response = $httpClient->doPost(config("Telcos.boomcast.api_url"), $params);
+        
         $telcoRes = $this->processResponse($response);
         $telcoRes->telcoRequest = $params;
         return $telcoRes;
@@ -24,25 +25,25 @@ class BoomCast implements TelcoInterface
         $res = json_decode($response);
         $telRes = new TelcoResponse();
         $telRes->telcoResponse = $response;
+        
         $telRes->status = SmsStatus::FAILED;
-
         if(isset($res[0]->success) && $res[0]->success == 1){
             $telRes->status = SmsStatus::SUCCESS;
-            $telRes->telcoMsgId = $res[0]->msgId ?? "";
+            $telRes->telcoMsgId = $res[0]->msgid ?? "";
         }
         return $telRes;
     }
 
     public function makeParams($request, $route)
     {
-        $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT":"UNICODE";
-        return json_encode([
-            "username" => $route->telco_username,
+        $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT" : "UNICODE";
+        return http_build_query([
+            "userName" => $route->telco_username,
             "password" => $route->telco_password,
-            "masking"  => $route->telco_mask_type,
+            "masking"  => (strtolower($route->telco_mask_type) == "nonmask") ? "NOMASK" : $route->mask_name,
             "message"  => $request['sms'],
             "MsgType" =>  $msgType,
-            "Receiver" => $request['misdn'],
+            "receiver" => $request['msisdn'],
         ]);
     }
 }
