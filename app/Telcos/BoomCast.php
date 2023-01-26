@@ -36,7 +36,7 @@ class BoomCast implements TelcoInterface
 
     public function makeParams($request, $route)
     {
-        $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT":"UNICODE";
+        $msgType = (mb_detect_encoding($request['sms']) == "ASCII") ? "TEXT" : "UNICODE";
         return http_build_query([
             "userName" => $route->telco_username,
             "password" => $route->telco_password . "1",
