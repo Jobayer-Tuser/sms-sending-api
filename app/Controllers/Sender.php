@@ -96,6 +96,7 @@ class Sender
     private function saveTelcoResponse($request, $route, $telcoResponse) : void
     {   
         $tableName                      = "sms_response_logs";
+        $columnValue["campaign_id"]        = $request['campaign_id'];
         $columnValue["telco_id"]        = $route->telco_id;
         $columnValue["sender_id"]       = $route->sender_id;
         $columnValue["sms_uid"]         = $request['sms_uid'];
